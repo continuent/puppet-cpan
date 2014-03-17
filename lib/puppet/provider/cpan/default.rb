@@ -3,7 +3,7 @@ Puppet::Type.type(:cpan).provide( :default ) do
 
   commands :cpan     => 'cpan'
   commands :perl     => 'perl'
-  confine  :osfamily => [:Debian, :RedHat]
+  confine  :osfamily => [:Debian, :RedHat, :Linux]
 
   def install
   end

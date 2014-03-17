@@ -55,6 +55,26 @@ class cpan (
         }
       }
     }
+    Linux: {
+      if $::operatingsystem == "Amazon" {
+        if $manage_package {
+          package { 'perl-CPAN': ensure => installed }
+          package { 'gcc': ensure => installed }
+          package { 'make': ensure => installed }
+        }
+        if $manage_config {
+          file { '/usr/share/perl5/CPAN/Config.pm':
+            ensure => present,
+            owner  => root,
+            group  => root,
+            mode   => '0644',
+            source => 'puppet:///modules/cpan/Config.pm',
+          }
+        }
+      } else {
+        fail("Module ${module_name} is not supported on ${::osfamily}:${::operatingsystem}")
+      }
+    }
     default: {
       fail("Module ${module_name} is not supported on ${::osfamily}")
     }
